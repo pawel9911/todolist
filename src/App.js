@@ -3,7 +3,6 @@ import {Box} from 'theme-ui';
 import TodoForm from './TodoForm';
 import Task from './Task';
 
-
 const App = ()  => {
   return (
     <Box className='App'>

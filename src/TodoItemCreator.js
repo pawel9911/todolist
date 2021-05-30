@@ -1,21 +1,17 @@
-import {  Button, Flex, Input, Text } from '@theme-ui/components';
+import {Button, Flex, Input, Text } from '@theme-ui/components';
 import {useSetRecoilState, atom, selector, useRecoilState, useRecoilValue} from 'recoil';
 import Style from './Style';
 import {todoListState} from './TodoList';
 
-let id = 0;
-const getId = () => {
-    return id++;
-}
 const textState = atom({
   key: 'textState',
   default: '', 
 });
+
 const charCountState = selector({
   key: 'charCountState', 
   get: ({get}) => {
     const text = get(textState);
-
     return text.length;
   },
 });
@@ -24,23 +20,29 @@ const TodoItemCreator = () => {
     const [text, setText] = useRecoilState(textState);
     const count = useRecoilValue(charCountState);
     const setTodoList = useSetRecoilState(todoListState);
+
     const addItem = () => {
-      setTodoList((oldTodoList) => [
-        ...oldTodoList,
-        {
-          id: getId(),
-          text: text,
-          isComplete: false,
-        },
-      ]);
-      fetch('https://gorest.co.in/public-api/users', {
+      fetch(`https://gorest.co.in/public-api/users/1446/todos`, {
         method:'POST',
-        body: JSON.stringify({id: id , text: text, isComplete: false}),
+        body: JSON.stringify({user: 1446, title: text, completed: false}),
         headers: {
-          "content-type": 'application/json'
+          "content-type": 'application/json',
+          "Authorization": 'Bearer 735645577eefaa56b1d0f0097bb74e4911b4206b0bf3c39cadd6c8009df66521'
         }
       })
-      .then(text => console.log(text.status))
+      .then(response => response.json())
+      .then((data)=>{
+        return (
+          setTodoList((oldTodoList) => [
+            ...oldTodoList,
+            {
+              id: data.id,
+              text: text,
+              isComplete: false,
+            },
+          ])
+        )
+      })   
       setText('');
     };
   

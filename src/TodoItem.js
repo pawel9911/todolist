@@ -4,10 +4,7 @@ import {todoListState} from './TodoList';
 import { Link } from 'react-router-dom';
 import Style from './Style';
 
-let data = {
-  text: '',
-  id: 0,
-}
+let text = '';
 
 const TodoItem = ({item}) =>{
     const [todoList, setTodoList] = useRecoilState(todoListState);
@@ -18,25 +15,45 @@ const TodoItem = ({item}) =>{
         ...item,
         isComplete: !item.isComplete,
       });
-  
       setTodoList(newList);
     };
   
     const deleteItem = () => {
       const newList = removeItemAtIndex(todoList, index);
       setTodoList(newList);
-      fetch(`https://gorest.co.in/public-api/users/${index}`, {
-        method: 'DELETE',
+      console.log(newList)
+
+
+
+      fetch(`https://gorest.co.in/public-api/users/1446/todos?id=${item.id}`, {
+        method:'POST',
+        body: JSON.stringify(newList),
+        headers: {
+          "content-type": 'application/json',
+          "Authorization": 'Bearer 735645577eefaa56b1d0f0097bb74e4911b4206b0bf3c39cadd6c8009df66521'
+        }
       })
-      .then(text => console.log(text.status))
+      .then(response => response.json())
+      .then(data => console.log(data))
       .catch(err => console.log(err))
-    };
+      // Usunięcie zadania z API 
+      };
+
+
+
+
+
+
+
+
+
+
     const sendData = () => {
-      data = {text: item.text, id: item.id+1}
+      text = item.text
     }
     return (
       <Flex sx={Style.itemPosition}>
-        <Heading as='h2' sx={Style.itemHeading}>Zadanie {item.id+1}</Heading>
+        <Heading as='h2' sx={Style.itemHeading}>Zadanie</Heading>
         <Text sx={Style.itemText}>{item.text}</Text>
         <Label sx={Style.itemLabel}>
             <Checkbox
@@ -60,5 +77,5 @@ const TodoItem = ({item}) =>{
     return [...arr.slice(0, index), ...arr.slice(index + 1)];
   }
 
-  export {data}
+  export {text}
   export default TodoItem;

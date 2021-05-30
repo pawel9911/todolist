@@ -1,4 +1,4 @@
-import {atom, useRecoilValue,} from 'recoil';
+import {atom, useRecoilValue, useSetRecoilState} from 'recoil';
 import TodoItemCreator from './TodoItemCreator';
 import TodoItem from './TodoItem';
 import TodoListStats from './TodoListStats';
@@ -6,6 +6,7 @@ import TodoListFilters from './TodoListFilters ';
 import {filteredTodoListState} from './TodoListFilters '
 import {Flex, Grid, Heading } from '@theme-ui/components';
 import Style from './Style';
+import { useEffect } from 'react';
 
 const todoListState = atom({
     key: 'todoListState',
@@ -14,6 +15,22 @@ const todoListState = atom({
 
 const Todolist = () =>{
     const todoList = useRecoilValue(filteredTodoListState);
+    const setTodoList = useSetRecoilState(todoListState);
+    useEffect(()=>{
+      fetch(`https://gorest.co.in/public-api/users/1446/todos`)
+      .then(re => re.json())
+      .then((data) => {
+        let task = data.data.map((e)=> {
+          return {
+            id: e.id,
+            text: e.title,
+            isComplete: e.completed
+          }
+        })
+        return setTodoList(task)
+      })
+    },[])
+
     return (
         <>
           <Flex sx={Style.header}>
@@ -24,8 +41,8 @@ const Todolist = () =>{
           <Flex  sx={{flexDirection:'column', alignItems:'center'}}>
             <TodoListFilters/>
             <Grid  sx={Style.itemGrid}>
-              {todoList.map((todoItem) => (
-                <TodoItem key={todoItem.id} item={todoItem} />
+              {todoList.map((todoItem, index) => (
+                <TodoItem key={index} item={todoItem} />
               ))}
             </Grid>
           </Flex>
