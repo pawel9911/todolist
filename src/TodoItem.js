@@ -21,32 +21,14 @@ const TodoItem = ({item}) =>{
     const deleteItem = () => {
       const newList = removeItemAtIndex(todoList, index);
       setTodoList(newList);
-      console.log(newList)
-
-
-
-      fetch(`https://gorest.co.in/public-api/users/1446/todos?id=${item.id}`, {
-        method:'POST',
-        body: JSON.stringify(newList),
+      
+      fetch(`https://gorest.co.in/public-api/todos/${item.id}`, {
+        method:'DELETE',
         headers: {
-          "content-type": 'application/json',
           "Authorization": 'Bearer 735645577eefaa56b1d0f0097bb74e4911b4206b0bf3c39cadd6c8009df66521'
         }
       })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err))
-      // Usunięcie zadania z API 
       };
-
-
-
-
-
-
-
-
-
 
     const sendData = () => {
       text = item.text

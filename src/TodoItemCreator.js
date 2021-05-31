@@ -22,7 +22,7 @@ const TodoItemCreator = () => {
     const setTodoList = useSetRecoilState(todoListState);
 
     const addItem = () => {
-      fetch(`https://gorest.co.in/public-api/users/1446/todos`, {
+      fetch(`https://gorest.co.in/public-api/users/2586/todos`, {
         method:'POST',
         body: JSON.stringify({user: 1446, title: text, completed: false}),
         headers: {
@@ -32,6 +32,7 @@ const TodoItemCreator = () => {
       })
       .then(response => response.json())
       .then((data)=>{
+        console.log(data)
         return (
           setTodoList((oldTodoList) => [
             ...oldTodoList,
