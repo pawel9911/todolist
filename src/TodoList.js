@@ -20,9 +20,7 @@ const Todolist = () =>{
       fetch(`https://gorest.co.in/public-api/users/2586/todos`)
       .then(re => re.json())
       .then((data) => {
-        console.log(data)
         let task = data.data.map((e)=> {
-          console.log(e)
           return {
             id: e.id,
             text: e.title,
