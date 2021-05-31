@@ -15,20 +15,17 @@ const TodoItem = ({item}) =>{
         ...item,
         isComplete: !item.isComplete,
       });
-      setTodoList(newList);
+      setTodoList(newList); 
       fetch(`https://gorest.co.in/public-api/todos/${item.id}`, {
         method:'PUT',
         body: JSON.stringify({completed: (item.isComplete? false: true)}),
         headers: {
           "Accept": 'application/json',
           "content-type": 'application/json',
-          "Authorization": 'Bearer 735645577eefaa56b1d0f0097bb74e4911b4206b0bf3c39cadd6c8009df66521',
+          "Authorization": 'Bearer ',//brak tokena
           "Access-Control-Allow-Origin": 'http://localhost:3000'
         }
-      }).then(data => data.json())
-      .then(data => console.log(data))
-      .catch(err=> console.log(err))
-
+      })
     };
   
     const deleteItem = () => {
@@ -38,7 +35,7 @@ const TodoItem = ({item}) =>{
       fetch(`https://gorest.co.in/public-api/todos/${item.id}`, {
         method:'DELETE',
         headers: {
-          "Authorization": 'Bearer 735645577eefaa56b1d0f0097bb74e4911b4206b0bf3c39cadd6c8009df66521'
+          "Authorization": 'Bearer '//brak tokena
         }
       })
       };

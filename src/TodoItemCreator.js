@@ -27,7 +27,7 @@ const TodoItemCreator = () => {
         body: JSON.stringify({user: 1446, title: text, completed: false}),
         headers: {
           "content-type": 'application/json',
-          "Authorization": 'Bearer 735645577eefaa56b1d0f0097bb74e4911b4206b0bf3c39cadd6c8009df66521'
+          "Authorization": 'Bearer '//brak tokena
         }
       })
       .then(response => response.json())
